@@ -1,0 +1,50 @@
+/ Modal
+.modal-dialog.modal-lg{:role => "document"}
+  .modal-content
+    .modal-header
+      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+      
+      %h4#myModalLabel.modal-title
+        Ticket
+        = "##{@ticket.id} - "
+        = @ticket.title
+        - if @ticket.closed?
+          %span.label.label-danger This ticket is closed. If you need further assistance, please open a new ticket
+        - else
+          %span.label.label-warning= @ticket.status
+        
+    .modal-body
+      - if !@ticket.closed?
+        .row
+          = form_for Conversation.new, url: add_conversation_ticket_path(@ticket.id), remote: true do |f|
+            .col-md-12
+              = f.text_area :message, :class => "form-control", placeholder: "Message", required: true
+              = f.hidden_field :user_id, value: current_user.id
+            %br
+            %br
+            .col-md-12
+              .col-md-4
+                %br
+                = f.submit "Send", :class => "btn btn-primary"
+                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
+              .col-md-2
+                %br
+                = link_to "Close ticket", close_ticket_path(@ticket), data: {confirm: "Are you sure?"}, :class => "btn btn-info" if current_user.customer?
+        %br
+        %br
+            
+      .row
+        #conversations_div
+          = render "conversations"
+      .row
+        .col-md-12
+          .col-md-2
+            = @ticket.customer.name
+          .col-md-6
+            = simple_format(@ticket.description)
+          .col-md-4
+            = @ticket.created_at.to_formatted_s(:short)
+    .modal-footer
+      %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+      // %button.btn.btn-primary{:type => "button"} Save changes

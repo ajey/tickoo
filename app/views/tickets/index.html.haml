@@ -1,0 +1,12 @@
+/ = link_to 'Contact support', new_ticket_path if current_user.customer?
+- if current_user.customer?
+  %br
+  %a.btn.btn-warning#ticket_form{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", href: "#collapseExample", role: "button"}
+    Contact support
+  %br
+  %br
+
+= react_component 'Index', { data: @ip_tickets, show_assign: current_user.agent?, show_delete: current_user.agent? || current_user.admin?, comp: 'nonclosed_tickets', closedtickets: @closed_tickets ? @closed_tickets : [], opentickets: @open_tickets ? @open_tickets : [], user_role: current_user.role, current_user_id: current_user.id}
+
+/ modal popup to show ticket details and conversations
+.modal{role: "dialog", tabindex: "-1", id: "ticket"}

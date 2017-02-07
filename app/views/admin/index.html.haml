@@ -1,0 +1,37 @@
+%br
+%br
+
+%ul.nav.nav-pills.nav-justified
+  %li.active
+    %a{"data-toggle" => "tab", :href => "#tickets"} Tickets
+  %li
+    %a{"data-toggle" => "tab", :href => "#users"} Users
+
+%br
+.tab-content
+  // tickets tab
+  #tickets.tab-pane.fade.in.active
+    = react_component 'Index', { data: @tickets, show_assign: current_user.agent?, comp: 'nonclosed_tickets', closedtickets: @closed_tickets ? @closed_tickets : [], opentickets: @open_tickets ? @open_tickets : [], user_role: "admin", current_user_id: current_user.id}
+  
+  // users tab
+  #users.tab-pane.fade
+    %table.table.table-hover
+      %tr
+        %th ID
+        %th Name
+        %th Email
+        %th Role
+        %th Tickets
+        %th
+
+      - @users.each do |user|
+        %tr
+          %td= user.id
+          %td= user.name
+          %td= user.email
+          %td= user.role
+          %td= user.customer? ? user.tickets_raised.length : user.tickets_assigned.length
+          %td= link_to "Download history for past 30 days", download_history_path(user.id, format: :pdf), target: "_blank" if user.agent?
+
+/ modal popup to show ticket details and conversations
+.modal{role: "dialog", tabindex: "-1", id: "ticket"}

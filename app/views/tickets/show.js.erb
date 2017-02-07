@@ -1,0 +1,4 @@
+// $("#ticket").before("<%= escape_javascript(render "tickets/show", :formats => [:html]) %>");
+// $("#ticket").modal();
+
+$('#ticket').html("<%= escape_javascript(render 'show') %>");

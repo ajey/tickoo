@@ -1,0 +1,10 @@
+- @conversations.each do |c|
+  .col-md-12
+    .col-md-2
+      = "#{c.user.name} (#{c.user.role})"
+    .col-md-6
+      = simple_format(c.message)
+    .col-md-4
+      = c.created_at.to_formatted_s(:short)
+  .clearfix
+  %hr

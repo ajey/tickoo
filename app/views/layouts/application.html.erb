@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tickoo</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav>
+          <% if user_signed_in? %>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="active"><%= link_to "Tickets", tickets_path if !current_user.admin? %></li>
+              <!--li role="presentation"><a href="#">About</a></li>
+              <li role="presentation"><a href="#">Contact</a></li-->
+              <li role="presentation"><%= link_to "Logout #{current_user.name.capitalize} (#{current_user.role})", destroy_user_session_path, method: :delete %></li>
+            </ul>
+          <% end %>
+        </nav>
+        <h3 class="text-muted">TICKOO</h3>
+      </div>
+      <%= yield %>
+      <footer class="footer">
+        <p>&copy; 2017 TICKOO, Inc.</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>

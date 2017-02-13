@@ -17,6 +17,7 @@ var Tickets = React.createClass({
 			  	<td>{ticket.description.trimToLength(50)}</td>
 			  	<td>{ticket.priority}</td>
 			  	<td>{ticket.status}</td>
+				<td>{strftime('%d %b %H:%M', new Date(ticket.created_at))}</td>
 		    </tr>
 			) });
 		return( 
@@ -35,6 +36,7 @@ var Tickets = React.createClass({
 		            <th className="">Description</th>
 		            <th className="">Priority</th>
 		            <th className="">Status</th>
+					<th className="">Added on</th>
 		          </tr>
 		        </thead>
 						<tbody>

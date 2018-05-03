@@ -13,5 +13,3 @@ Preparing the app for first use:
 * rake db:create
 * rake db:migrate
 * rake db:seed
-
-If you have any questions, then you can email me at ajey.potdar@gmail.com
